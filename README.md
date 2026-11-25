@@ -1,55 +1,51 @@
 # Smart Moisture Detection System for Smart Irrigation
 
-An Arduino Uno-based prototype designed to support automated irrigation and efficient water management. The system combines an LDR-based sensing arrangement, rain sensor, crop-selection push buttons, 16x2 I2C LCD, relay module, buzzer and a 5V water pump.
+An Arduino Uno-based prototype designed to automate irrigation using soil-moisture, rain and water-availability inputs, with crop-group selection and LCD status display.
 
 ## Main Features
-- Monitors inputs from the sensing arrangement and rain sensor.
-- Allows selection of crop categories using push buttons.
-- Displays system information and irrigation status on an LCD.
-- Uses a relay to switch the water pump according to programmed conditions.
-- Includes a buzzer for system alerts.
-- Designed as a low-cost educational smart-irrigation prototype.
+- Reads soil-moisture, rain, light and water-level sensor inputs.
+- Offers five crop groups selected with NEXT and PREVIOUS push buttons.
+- Applies crop-group-specific pump ON and OFF moisture thresholds.
+- Stops the pump when rain is detected or the water supply is unavailable.
+- Displays crop group, moisture percentage, rain status, light reading and water status on a 16x2 I2C LCD.
+- Uses a relay module to control the DC water pump and a buzzer to acknowledge button presses.
+- Sends sensor and pump status to the Serial Monitor.
 
 ## Hardware Components
 - Arduino Uno
-- LDR (light-dependent resistor) sensing arrangement
-- Rain sensor module
-- 5V DC water pump
-- Relay module
-- 16x2 LCD with I2C interface
-- Buzzer
-- Push buttons
-- Voltage converter / regulated power supply
-- Breadboard and jumper wires
+- Soil-moisture sensor connected to A0
+- Rain sensor module connected to A1
+- LDR/light sensor connected to A2
+- Water-level sensor connected to A3
+- NEXT and PREVIOUS push buttons on D2 and D3
+- Buzzer on D4
+- Relay module on D8
+- 16x2 I2C LCD (address configured as 0x27)
+- DC water pump and suitable external power supply
+- Breadboard, jumper wires and regulated power components
 
 ## Software
 - Arduino IDE
-- Embedded C/C++
-- LiquidCrystal_I2C library (if used by the final sketch)
+- Arduino C/C++
+- Wire library
+- LiquidCrystal_I2C library
+
+## Firmware
+The main Arduino sketch is located at `firmware/Smart_Irrigation_System.ino`.
+
+Before uploading, verify the pin assignments, LCD I2C address, relay trigger polarity and sensor output polarity against the actual hardware. Calibrate `SOIL_DRY`, `SOIL_WET`, `RAIN_THRESHOLD` and `WATER_MINIMUM` using measured readings from the installed sensors.
 
 ## Project Status
-Hardware assembly, firmware integration and system integration have been completed. The prototype is in testing and evaluation. Numerical performance results should be added after measurements are collected.
+The hardware prototype and firmware integration have been completed and the system is in testing/evaluation. Add measured observations and performance results only after testing.
 
-## Important Sensor Note
-A standard LDR measures light intensity; it does not directly measure soil moisture. If the prototype uses an LDR in a custom arrangement, describe and calibrate that arrangement accurately. For direct soil-moisture measurement, use a dedicated capacitive or resistive soil-moisture sensor.
+## Safety
+Never power the pump from an Arduino I/O pin. Use a separate, suitably rated pump supply and a relay/driver rated for the pump's voltage and current. Confirm safe wiring and grounding before operation.
 
-## Safety and Wiring
-Do not power the pump directly from an Arduino I/O pin. Use a suitably rated external supply and relay/driver arrangement. Check the voltage and current ratings of the pump, relay and converter, and follow the actual circuit wiring. Any pin assignments in planning documents are examples and must be checked against the assembled hardware.
-
-## Repository Contents
+## Repository Structure
 - `README.md` — project overview and setup notes
-- `docs/PROJECT_DOCUMENTATION.md` — project report summary and methodology
-- `docs/COMPONENTS_AND_CONNECTIONS.md` — component list and example pin plan
-- `docs/TESTING_AND_OBSERVATIONS.md` — experimental procedure and observation template
-- `firmware/` — add the final, tested Arduino `.ino` sketch here
-- `images/` — add actual circuit, prototype and PCB images here
-
-## How to Use
-1. Review the documentation in the `docs/` folder.
-2. Add the final Arduino sketch to the `firmware/` folder.
-3. Verify all pin assignments against the physical circuit before uploading.
-4. Test sensor readings, crop selection, rain detection, relay switching and pump operation.
-5. Record actual readings and results in the testing document.
+- `firmware/` — Arduino source code
+- `docs/` — project report, component details and testing records
+- `images/` — circuit, PCB and prototype photographs
 
 ## Future Improvements
-Possible upgrades include a dedicated soil-moisture sensor, IoT remote monitoring, data logging, solar power, water-level sensing and multiple irrigation zones.
+Potential extensions include IoT monitoring, data logging, solar power, improved sensor calibration and multiple irrigation zones.
